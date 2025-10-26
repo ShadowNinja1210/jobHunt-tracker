@@ -1,11 +1,12 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
-if (!uri) {
+if (!process.env.MONGODB_URI) {
   // Do not throw during client-side builds; the file should only be used server-side.
   // If you attempt to import this file on the client, it will be empty and not connect.
   throw new Error("MONGODB_URI is not set in environment variables.");
 }
+
+const uri: string = process.env.MONGODB_URI;
 
 let cached: { client?: MongoClient; promise?: Promise<MongoClient> } =
   (global as any).__mongo || {};
