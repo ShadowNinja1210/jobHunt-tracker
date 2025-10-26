@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Job Hunt Tracker API",
+    "version": "1.0.0",
+    "description": "OpenAPI description for Job Hunt Tracker. This spec documents the server API and data models (MongoDB-backed)."
+  },
+  "servers": [
+    { "url": "http://localhost:3000", "description": "Local development" }
+  ],
+  "paths": {
+    "/api/leads": {
+      "get": {
+        "summary": "Get all leads",
+        "responses": { "200": { "description": "List of leads" } }
+      },
+      "post": {
+        "summary": "Create a lead",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LeadInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/leads/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "get": {
+        "summary": "Get lead by ID",
+        "responses": { "200": { "description": "Lead" } }
+      },
+      "put": {
+        "summary": "Update lead",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LeadInput" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Updated" } }
+      },
+      "delete": {
+        "summary": "Delete lead",
+        "responses": { "204": { "description": "Deleted" } }
+      }
+    },
+
+    "/api/applications": {
+      "get": {
+        "summary": "Get all applications",
+        "responses": { "200": { "description": "List" } }
+      },
+      "post": {
+        "summary": "Create application",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ApplicationInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/applications/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "get": {
+        "summary": "Get application by ID",
+        "responses": { "200": { "description": "Application" } }
+      },
+      "put": {
+        "summary": "Update application",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ApplicationInput" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Updated" } }
+      },
+      "delete": {
+        "summary": "Delete application",
+        "responses": { "204": { "description": "Deleted" } }
+      }
+    },
+
+    "/api/interviews": {
+      "get": {
+        "summary": "Get all interviews",
+        "responses": { "200": { "description": "List" } }
+      },
+      "post": {
+        "summary": "Create interview",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InterviewInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/contacts": {
+      "get": {
+        "summary": "Get all contacts",
+        "responses": { "200": { "description": "List" } }
+      },
+      "post": {
+        "summary": "Create contact",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ContactInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "summary": "Get all tasks",
+        "responses": { "200": { "description": "List" } }
+      },
+      "post": {
+        "summary": "Create task",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TaskInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/offers": {
+      "get": {
+        "summary": "Get all offers",
+        "responses": { "200": { "description": "List" } }
+      },
+      "post": {
+        "summary": "Create offer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OfferInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+
+    "/api/dashboard/stats": {
+      "get": {
+        "summary": "Get dashboard stats",
+        "responses": { "200": { "description": "Stats" } }
+      }
+    },
+
+    "/api/export/json": {
+      "get": {
+        "summary": "Export all data as JSON",
+        "responses": { "200": { "description": "JSON export" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LeadInput": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "roleTitle": { "type": "string" },
+          "companyName": { "type": "string" },
+          "source": { "type": "string" },
+          "listingUrl": { "type": "string" },
+          "city": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "researching",
+              "contacted",
+              "applied",
+              "interviewing",
+              "offer",
+              "closed-won",
+              "closed-lost"
+            ]
+          }
+        },
+        "required": ["name", "roleTitle", "companyName", "source", "status"]
+      },
+      "ApplicationInput": {
+        "type": "object",
+        "properties": {
+          "leadId": { "type": "string" },
+          "companyName": { "type": "string" },
+          "roleTitle": { "type": "string" },
+          "applicationLink": { "type": "string" },
+          "city": { "type": "string" },
+          "workType": {
+            "type": "string",
+            "enum": ["remote", "hybrid", "onsite"]
+          },
+          "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "interviewing",
+              "offer",
+              "closed-won",
+              "closed-lost"
+            ]
+          },
+          "lastFollowUp": { "type": "string", "format": "date-time" },
+          "nextFollowUp": { "type": "string", "format": "date-time" }
+        },
+        "required": [
+          "companyName",
+          "roleTitle",
+          "workType",
+          "priority",
+          "status"
+        ]
+      },
+      "InterviewInput": {
+        "type": "object",
+        "properties": {
+          "applicationId": { "type": "string" },
+          "round": { "type": "integer" },
+          "type": {
+            "type": "string",
+            "enum": ["screen", "technical", "hr", "onsite"]
+          },
+          "dateTime": { "type": "string", "format": "date-time" },
+          "timezone": { "type": "string" },
+          "interviewers": { "type": "array", "items": { "type": "string" } },
+          "location": { "type": "string" },
+          "meetingLink": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "required": ["applicationId", "round", "type"]
+      },
+      "ContactInput": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "company": { "type": "string" },
+          "email": { "type": "string" },
+          "linkedIn": { "type": "string" },
+          "relationship": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "required": ["name"]
+      },
+      "TaskInput": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "follow-up",
+              "send-materials",
+              "thank-you",
+              "prep",
+              "other"
+            ]
+          },
+          "dueDate": { "type": "string", "format": "date-time" },
+          "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+          "relatedEntity": { "type": "string" },
+          "completed": { "type": "boolean" }
+        },
+        "required": ["title", "type", "priority"]
+      },
+      "OfferInput": {
+        "type": "object",
+        "properties": {
+          "applicationId": { "type": "string" },
+          "companyName": { "type": "string" },
+          "roleTitle": { "type": "string" },
+          "ctc": { "type": "number" },
+          "base": { "type": "number" },
+          "bonus": { "type": "number" },
+          "equity": { "type": "number" },
+          "benefits": { "type": "string" },
+          "deadline": { "type": "string", "format": "date-time" },
+          "decision": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "required": ["applicationId", "companyName", "roleTitle"]
+      }
+    }
+  }
+}
